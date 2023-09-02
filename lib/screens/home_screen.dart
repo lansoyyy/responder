@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responder/screens/tabs/hazard_tab.dart';
+import 'package:responder/screens/tabs/map_tab.dart';
 import 'package:responder/screens/tabs/report_tab.dart';
 import 'package:responder/widgets/text_widget.dart';
 
@@ -14,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> children = [
     const HazardTab(),
     const ReportTab(),
-    const SizedBox(),
+    const MapTab(),
   ];
 
   int _currentIndex = 0;
