@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responder/widgets/text_widget.dart';
 
-import '../utils/colors.dart';
-
 class ButtonWidget extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
@@ -15,14 +13,14 @@ class ButtonWidget extends StatelessWidget {
 
   const ButtonWidget(
       {Key? key,
-      this.radius = 5,
+      this.radius = 100,
       required this.label,
       this.textColor = Colors.white,
       required this.onPressed,
       this.width = 300,
       this.fontSize = 18,
       this.height = 50,
-      this.color = Colors.amber})
+      this.color = Colors.blue})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
