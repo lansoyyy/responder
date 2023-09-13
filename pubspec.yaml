@@ -37,6 +37,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   fluttertoast:
   google_maps_flutter:
+  firebase_core:
+  cloud_firestore:
+  firebase_storage:
+  firebase_auth:
 dev_dependencies:
   flutter_test:
     sdk: flutter
