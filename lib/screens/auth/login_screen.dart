@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responder/screens/auth/signup_screen.dart';
 import 'package:responder/screens/home_screen.dart';
 import 'package:responder/widgets/button_widget.dart';
 import 'package:responder/widgets/text_widget.dart';
@@ -61,7 +62,10 @@ class LoginScreen extends StatelessWidget {
                 fontSize: 12,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SignupScreen()));
+                },
                 child: TextWidget(
                   fontFamily: 'Bold',
                   text: 'Signup now',
