@@ -13,7 +13,7 @@ Future addUser(name, contactnumber, address, email) async {
     'profilePicture': 'https://cdn-icons-png.flaticon.com/256/149/149071.png',
     'status': 'Active',
     'userId': FirebaseAuth.instance.currentUser!.uid,
-    'type': 'User',
+    'type': 'Responder',
     'contactnumber': contactnumber,
   };
 
