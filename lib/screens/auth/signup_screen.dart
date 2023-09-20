@@ -22,65 +22,67 @@ class SignupScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 50,
-            ),
-            TextWidget(
-              text: 'Register here',
-              fontSize: 24,
-              fontFamily: 'Bold',
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFieldWidget(
-              label: 'Name',
-              controller: nameController,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFieldWidget(
-              label: 'Contact Number',
-              controller: contactnumberController,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFieldWidget(
-              label: 'Address',
-              controller: addressController,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFieldWidget(
-              label: 'Email',
-              controller: emailController,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFieldWidget(
-              isObscure: true,
-              label: 'Password',
-              controller: passwordController,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ButtonWidget(
-              label: 'Signup',
-              onPressed: () {
-                register(context);
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 50,
+              ),
+              TextWidget(
+                text: 'Register here',
+                fontSize: 24,
+                fontFamily: 'Bold',
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFieldWidget(
+                label: 'Name',
+                controller: nameController,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFieldWidget(
+                label: 'Contact Number',
+                controller: contactnumberController,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFieldWidget(
+                label: 'Address',
+                controller: addressController,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFieldWidget(
+                label: 'Email',
+                controller: emailController,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFieldWidget(
+                isObscure: true,
+                label: 'Password',
+                controller: passwordController,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ButtonWidget(
+                label: 'Signup',
+                onPressed: () {
+                  register(context);
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );

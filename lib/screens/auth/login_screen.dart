@@ -18,65 +18,67 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Center(
-            child: Image.asset(
-              'assets/images/image 1.png',
-              width: 350,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 50,
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextFieldWidget(
-            label: 'Email',
-            controller: emailController,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextFieldWidget(
-            isObscure: true,
-            label: 'Password',
-            controller: passwordController,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ButtonWidget(
-            label: 'Login',
-            onPressed: () {
-              login(context);
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextWidget(
-                text: 'Not registered?',
-                fontSize: 12,
+            Center(
+              child: Image.asset(
+                'assets/images/image 1.png',
+                width: 350,
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => SignupScreen()));
-                },
-                child: TextWidget(
-                  fontFamily: 'Bold',
-                  text: 'Signup now',
-                  fontSize: 14,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextFieldWidget(
+              label: 'Email',
+              controller: emailController,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextFieldWidget(
+              isObscure: true,
+              label: 'Password',
+              controller: passwordController,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ButtonWidget(
+              label: 'Login',
+              onPressed: () {
+                login(context);
+              },
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextWidget(
+                  text: 'Not registered?',
+                  fontSize: 12,
                 ),
-              ),
-            ],
-          ),
-        ],
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => SignupScreen()));
+                  },
+                  child: TextWidget(
+                    fontFamily: 'Bold',
+                    text: 'Signup now',
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
