@@ -103,7 +103,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             style: const TextStyle(
               fontFamily: 'Regular',
               fontSize: 14,
-              color: Colors.white,
+              color: Colors.black,
             ),
             textCapitalization: widget.textCapitalization!,
             keyboardType: widget.inputType,
