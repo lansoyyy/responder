@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.warning),
-            label: 'HAZARD',
+            label: 'ANNOUNCEMENTS',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.visibility),

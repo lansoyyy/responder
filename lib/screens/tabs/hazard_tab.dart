@@ -6,34 +6,25 @@ class HazardTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              cardWidget('assets/images/report.png', '24'),
-              cardWidget('assets/images/fire 1.png', '24'),
-            ],
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: const Icon(
+            Icons.info,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              cardWidget('assets/images/image 2.png', '24'),
-              cardWidget('assets/images/flood.png', '24'),
-            ],
+          title: TextWidget(
+            text: 'Title of the Announcements',
+            fontSize: 18,
+            color: Colors.black,
+            fontFamily: 'Bold',
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              cardWidget('assets/images/earthquake.png', '24'),
-              cardWidget('assets/images/landslide.png', '24'),
-            ],
+          subtitle: TextWidget(
+            text: 'Description of the Announcements',
+            fontSize: 12,
+            color: Colors.grey,
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
