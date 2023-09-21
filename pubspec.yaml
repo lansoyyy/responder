@@ -41,6 +41,7 @@ dependencies:
   cloud_firestore:
   firebase_storage:
   firebase_auth:
+  intl: ^0.18.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
