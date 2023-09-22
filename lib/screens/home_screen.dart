@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Icons.account_circle_outlined,
         ),
         title: TextWidget(
-          text: 'HAZARD ACTIVITY',
+          text: 'HOME',
           fontSize: 18,
           color: Colors.white,
         ),
