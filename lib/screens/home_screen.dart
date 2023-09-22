@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:responder/screens/notif_screen.dart';
 import 'package:responder/screens/tabs/hazard_tab.dart';
 import 'package:responder/screens/tabs/map_tab.dart';
 import 'package:responder/screens/tabs/report_tab.dart';
@@ -13,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> children = [
-    const HazardTab(),
+    HazardTab(),
     const ReportTab(),
     const MapTab(),
   ];
@@ -39,10 +41,51 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.white,
         ),
         centerTitle: true,
-        actions: const [
-          Icon(
-            Icons.notifications_rounded,
-          ),
+        actions: [
+          StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('Reports')
+                  .where('status', isEqualTo: 'Pending')
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  print(snapshot.error);
+                  return const Center(child: Text('Error'));
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  print('waiting');
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 50),
+                    child: Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.black,
+                    )),
+                  );
+                }
+
+                final data = snapshot.requireData;
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const NotifScreen()));
+                    },
+                    child: Badge(
+                      backgroundColor: Colors.red,
+                      label: TextWidget(
+                        text: data.docs.length.toString(),
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                      child: const Icon(
+                        Icons.notifications_rounded,
+                      ),
+                    ),
+                  ),
+                );
+              }),
         ],
       ),
       body: children[_currentIndex],

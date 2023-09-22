@@ -4,7 +4,12 @@ import 'package:responder/widgets/text_widget.dart';
 import 'package:intl/intl.dart';
 
 class HazardTab extends StatelessWidget {
-  const HazardTab({super.key});
+  bool? inNotif;
+
+  HazardTab({
+    super.key,
+    this.inNotif = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +40,15 @@ class HazardTab extends StatelessWidget {
               itemCount: data.docs.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                    leading: const Icon(
-                      Icons.info,
-                    ),
+                    leading: inNotif!
+                        ? null
+                        : const Icon(
+                            Icons.info,
+                          ),
                     title: TextWidget(
-                      text: data.docs[index]['name'],
+                      text: inNotif!
+                          ? '${data.docs[index]['name']} added a report'
+                          : data.docs[index]['name'],
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: 'Bold',
