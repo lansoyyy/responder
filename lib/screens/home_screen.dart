@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:responder/screens/notif_screen.dart';
 import 'package:responder/screens/tabs/hazard_tab.dart';
+import 'package:responder/screens/tabs/main_map_tab.dart';
 import 'package:responder/screens/tabs/map_tab.dart';
 import 'package:responder/screens/tabs/newhazard_tab.dart';
 import 'package:responder/screens/tabs/report_tab.dart';
@@ -18,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> children = [
     NewHazardTab(),
     const ReportTab(),
-    const MapTab(),
+    const MainMapTab(),
   ];
 
   int _currentIndex = 0;
