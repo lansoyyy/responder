@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:responder/screens/notif_screen.dart';
 import 'package:responder/screens/tabs/hazard_tab.dart';
 import 'package:responder/screens/tabs/map_tab.dart';
+import 'package:responder/screens/tabs/newhazard_tab.dart';
 import 'package:responder/screens/tabs/report_tab.dart';
 import 'package:responder/widgets/text_widget.dart';
 
@@ -15,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> children = [
-    HazardTab(),
+    NewHazardTab(),
     const ReportTab(),
     const MapTab(),
   ];
@@ -99,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.warning),
-            label: 'ANNOUNCEMENTS',
+            label: 'HAZARD',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.visibility),
