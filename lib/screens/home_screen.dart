@@ -6,6 +6,7 @@ import 'package:responder/screens/tabs/main_map_tab.dart';
 import 'package:responder/screens/tabs/map_tab.dart';
 import 'package:responder/screens/tabs/newhazard_tab.dart';
 import 'package:responder/screens/tabs/report_tab.dart';
+import 'package:responder/widgets/drawer_widget.dart';
 import 'package:responder/widgets/text_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,10 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const DrawerWidget(),
       appBar: AppBar(
-        leading: const Icon(
-          Icons.account_circle_outlined,
-        ),
         title: TextWidget(
           text: 'HOME',
           fontSize: 18,
