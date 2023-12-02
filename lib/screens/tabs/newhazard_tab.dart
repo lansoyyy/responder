@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:responder/widgets/text_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:responder/widgets/text_widget.dart';
 
 class NewHazardTab extends StatelessWidget {
   bool? inNotif;
@@ -19,7 +19,7 @@ class NewHazardTab extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            cardWidget('assets/images/report.png', 'Reports'),
+            cardWidget('assets/images/report.png', 'Others'),
             cardWidget('assets/images/fire 1.png', 'Fire'),
           ],
         ),
@@ -74,32 +74,78 @@ class NewHazardTab extends StatelessWidget {
             }
 
             final data = snapshot.requireData;
-            return Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextWidget(
-                    text: name,
-                    fontSize: 24,
-                    fontFamily: 'Bold',
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Image.asset(
-                    path,
-                    height: 50,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextWidget(
-                    text: data.docs.length.toString(),
-                    fontSize: 24,
-                    fontFamily: 'Bold',
-                  ),
-                ],
+            return GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: SizedBox(
+                        height: 300,
+                        width: 800,
+                        child: ListView.builder(
+                          itemCount: data.docs.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: TextWidget(
+                                  text: data.docs[index]['name'], fontSize: 12),
+                              subtitle: TextWidget(
+                                text: data.docs[index]['caption'],
+                                fontSize: 14,
+                                fontFamily: 'Bold',
+                              ),
+                              trailing: TextWidget(
+                                text: DateFormat.yMMMd().add_jm().format(
+                                    data.docs[index]['dateTime'].toDate()),
+                                fontSize: 10,
+                                fontFamily: 'Bold',
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: TextWidget(
+                            text: 'Close',
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextWidget(
+                      text: name,
+                      fontSize: 24,
+                      fontFamily: 'Bold',
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Image.asset(
+                      path,
+                      height: 50,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextWidget(
+                      text: data.docs.length.toString(),
+                      fontSize: 24,
+                      fontFamily: 'Bold',
+                    ),
+                  ],
+                ),
               ),
             );
           }),

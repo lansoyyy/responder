@@ -22,10 +22,8 @@ class ReportTab extends StatelessWidget {
             height: 20,
           ),
           StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('Reports')
-                  .where('status', isEqualTo: 'Pending')
-                  .snapshots(),
+              stream:
+                  FirebaseFirestore.instance.collection('Reports').snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
@@ -95,7 +93,10 @@ class ReportTab extends StatelessWidget {
                           Icons.account_circle,
                         ),
                         title: TextWidget(
-                            text: data.docs[index]['name'], fontSize: 12),
+                            text: data.docs[index]['name'] +
+                                ' - ' +
+                                data.docs[index]['status'],
+                            fontSize: 12),
                         subtitle: TextWidget(
                           text: data.docs[index]['caption'],
                           fontSize: 14,
