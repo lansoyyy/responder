@@ -190,6 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             StreamBuilder<QuerySnapshot>(
                                 stream: FirebaseFirestore.instance
                                     .collection('Message')
+                                    .orderBy('dateTime')
                                     .snapshots(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -254,10 +255,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       dynamic data = snapshot.data;
                                       return IconButton(
                                         onPressed: () {
-                                          addMessage(
-                                              data['name'], msgController.text);
-                                          showToast('Message sent!');
-                                          msgController.clear();
+                                          if (msgController.text != '') {
+                                            addMessage(data['name'],
+                                                msgController.text);
+                                            showToast('Message sent!');
+                                            msgController.clear();
+                                          } else {
+                                            showToast('Please input a message');
+                                          }
                                         },
                                         icon: const Icon(
                                           Icons.send,
