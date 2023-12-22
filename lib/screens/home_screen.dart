@@ -2,11 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:responder/screens/notif_screen.dart';
-import 'package:responder/screens/tabs/hazard_tab.dart';
 import 'package:responder/screens/tabs/main_map_tab.dart';
-import 'package:responder/screens/tabs/map_tab.dart';
 import 'package:responder/screens/tabs/newhazard_tab.dart';
 import 'package:responder/screens/tabs/report_tab.dart';
+import 'package:responder/services/add_message.dart';
 import 'package:responder/services/add_notif.dart';
 import 'package:responder/widgets/drawer_widget.dart';
 import 'package:responder/widgets/text_widget.dart';
@@ -36,6 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final reportController = TextEditingController();
+
+  final msgController = TextEditingController();
+  String msg = '';
 
   @override
   Widget build(BuildContext context) {
@@ -168,6 +170,125 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               }),
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: TextWidget(
+                      text: 'Chats',
+                      fontSize: 18,
+                      fontFamily: 'Bold',
+                    ),
+                    content: SizedBox(
+                      height: 400,
+                      width: 500,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            StreamBuilder<QuerySnapshot>(
+                                stream: FirebaseFirestore.instance
+                                    .collection('Message')
+                                    .snapshots(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                                  if (snapshot.hasError) {
+                                    print(snapshot.error);
+                                    return const Center(child: Text('Error'));
+                                  }
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    print('waiting');
+                                    return const Padding(
+                                      padding: EdgeInsets.only(top: 50),
+                                      child: Center(
+                                          child: CircularProgressIndicator(
+                                        color: Colors.black,
+                                      )),
+                                    );
+                                  }
+
+                                  final data1 = snapshot.requireData;
+                                  return SizedBox(
+                                    height: 350,
+                                    width: 500,
+                                    child: ListView.builder(
+                                      itemCount: data1.docs.length,
+                                      itemBuilder: (context, index1) {
+                                        return ListTile(
+                                          leading: const Icon(
+                                            Icons.account_circle_outlined,
+                                          ),
+                                          title: TextWidget(
+                                            text: data1.docs[index1]['msg'],
+                                            fontSize: 14,
+                                          ),
+                                          subtitle: TextWidget(
+                                            text: data1.docs[index1]['name'],
+                                            fontSize: 12,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                }),
+                            TextFormField(
+                              controller: msgController,
+                              decoration: InputDecoration(
+                                suffixIcon: StreamBuilder<DocumentSnapshot>(
+                                    stream: userData,
+                                    builder: (context,
+                                        AsyncSnapshot<DocumentSnapshot>
+                                            snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const SizedBox();
+                                      } else if (snapshot.hasError) {
+                                        return const Center(
+                                            child:
+                                                Text('Something went wrong'));
+                                      } else if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const SizedBox();
+                                      }
+                                      dynamic data = snapshot.data;
+                                      return IconButton(
+                                        onPressed: () {
+                                          addMessage(
+                                              data['name'], msgController.text);
+                                          showToast('Message sent!');
+                                          msgController.clear();
+                                        },
+                                        icon: const Icon(
+                                          Icons.send,
+                                        ),
+                                      );
+                                    }),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: TextWidget(
+                          text: 'Close',
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            icon: const Icon(
+              Icons.chat,
+            ),
+          ),
         ],
       ),
       body: children[_currentIndex],
