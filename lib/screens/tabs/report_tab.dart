@@ -22,8 +22,10 @@ class ReportTab extends StatelessWidget {
             height: 20,
           ),
           StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection('Reports').snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection('Reports')
+                  .where('status', isNotEqualTo: 'Rejected')
+                  .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
@@ -130,16 +132,64 @@ class ReportTab extends StatelessWidget {
                                           fontSize: 12,
                                           fontFamily: 'Medium',
                                         )
-                                      : const SizedBox()
+                                      : const SizedBox(),
+                                  TextWidget(
+                                    text: DateFormat.yMMMd().add_jm().format(
+                                        data.docs[index]['dateTime'].toDate()),
+                                    fontSize: 12,
+                                    fontFamily: 'Bold',
+                                  ),
                                 ],
                               );
                             }),
-                        trailing: TextWidget(
-                          text: DateFormat.yMMMd()
-                              .add_jm()
-                              .format(data.docs[index]['dateTime'].toDate()),
-                          fontSize: 12,
-                          fontFamily: 'Bold',
+                        trailing: IconButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: TextWidget(
+                                    text:
+                                        'Are you sure you want to reject this report?',
+                                    fontSize: 18,
+                                    fontFamily: 'Bold',
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: TextWidget(
+                                        text: 'Close',
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        await FirebaseFirestore.instance
+                                            .collection('Reports')
+                                            .doc(data.docs[index].id)
+                                            .update({
+                                          'responder': FirebaseAuth
+                                              .instance.currentUser!.uid,
+                                          'status': 'Rejected'
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                      child: TextWidget(
+                                        text: 'Continue',
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.red,
+                          ),
                         ),
                       );
                     },
