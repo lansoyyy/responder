@@ -47,17 +47,28 @@ class NotifPage extends StatelessWidget {
             return ListView.builder(
               itemCount: data.docs.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  leading: const Icon(Icons.notifications),
-                  title: TextWidget(
-                      text:
-                          '${data.docs[index]['name']} submitted a report: ${data.docs[index]['caption']}',
-                      fontSize: 14),
-                  subtitle: TextWidget(
-                      text: data.docs[index]['address'], fontSize: 12),
-                  trailing: TextWidget(
-                      text: data.docs[index]['status'], fontSize: 10),
-                );
+                return data.docs[index]['contactnumber'] == 'Administrator'
+                    ? ListTile(
+                        leading: const Icon(Icons.notifications),
+                        title: TextWidget(
+                            text:
+                                '${data.docs[index]['contactnumber']} added an announcement: ${data.docs[index]['caption']}',
+                            fontSize: 14),
+                        subtitle: TextWidget(
+                            text: data.docs[index]['contactnumber'],
+                            fontSize: 12),
+                      )
+                    : ListTile(
+                        leading: const Icon(Icons.notifications),
+                        title: TextWidget(
+                            text:
+                                '${data.docs[index]['name']} submitted a report: ${data.docs[index]['caption']}',
+                            fontSize: 14),
+                        subtitle: TextWidget(
+                            text: data.docs[index]['address'], fontSize: 12),
+                        trailing: TextWidget(
+                            text: data.docs[index]['status'], fontSize: 10),
+                      );
               },
             );
           }),
