@@ -33,10 +33,10 @@ class _MapTabState extends State<MapTab> {
   }
 
   bool hasloaded = false;
-  GoogleMapController? mapController;
-
   double lat = 0;
   double long = 0;
+  GoogleMapController? mapController;
+
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 

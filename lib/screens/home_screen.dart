@@ -127,10 +127,8 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         actions: [
           StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('Reports')
-                  .where('status', isEqualTo: 'Pending')
-                  .snapshots(),
+              stream:
+                  FirebaseFirestore.instance.collection('Notifs').snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {

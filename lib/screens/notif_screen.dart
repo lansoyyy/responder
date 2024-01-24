@@ -9,10 +9,6 @@ class NotifPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Stream<DocumentSnapshot> userData = FirebaseFirestore.instance
-        .collection('Users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .snapshots();
     return Scaffold(
       appBar: AppBar(
         title: TextWidget(
