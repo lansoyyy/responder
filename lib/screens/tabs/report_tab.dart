@@ -47,11 +47,6 @@ class ReportTab extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: data.docs.length,
                     itemBuilder: (context, index) {
-                      final Stream<DocumentSnapshot> userData =
-                          FirebaseFirestore.instance
-                              .collection('Users')
-                              .doc(data.docs[index]['responder'])
-                              .snapshots();
                       return ListTile(
                         onTap: () {
                           showDialog(
@@ -104,44 +99,53 @@ class ReportTab extends StatelessWidget {
                                 ' - ' +
                                 data.docs[index]['status'],
                             fontSize: 12),
-                        subtitle: StreamBuilder<DocumentSnapshot>(
-                            stream: userData,
-                            builder: (context,
-                                AsyncSnapshot<DocumentSnapshot> snapshot) {
-                              if (!snapshot.hasData) {
-                                return const SizedBox();
-                              } else if (snapshot.hasError) {
-                                return const Center(
-                                    child: Text('Something went wrong'));
-                              } else if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const SizedBox();
-                              }
-                              dynamic data12 = snapshot.data;
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  TextWidget(
-                                    text: data.docs[index]['caption'],
-                                    fontSize: 14,
-                                    fontFamily: 'Bold',
-                                  ),
-                                  data.docs[index]['responder'] != ''
-                                      ? TextWidget(
-                                          text: 'Responder: ${data12['name']}',
-                                          fontSize: 12,
-                                          fontFamily: 'Medium',
-                                        )
-                                      : const SizedBox(),
-                                  TextWidget(
-                                    text: DateFormat.yMMMd().add_jm().format(
-                                        data.docs[index]['dateTime'].toDate()),
-                                    fontSize: 12,
-                                    fontFamily: 'Bold',
-                                  ),
-                                ],
-                              );
-                            }),
+                        subtitle: data.docs[index]['responder'] == ''
+                            ? const SizedBox()
+                            : StreamBuilder<DocumentSnapshot>(
+                                stream: FirebaseFirestore.instance
+                                    .collection('Users')
+                                    .doc(data.docs[index]['responder'])
+                                    .snapshots(),
+                                builder: (context,
+                                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return const SizedBox();
+                                  } else if (snapshot.hasError) {
+                                    return const Center(
+                                        child: Text('Something went wrong'));
+                                  } else if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const SizedBox();
+                                  }
+                                  dynamic data12 = snapshot.data;
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TextWidget(
+                                        text: data.docs[index]['caption'],
+                                        fontSize: 14,
+                                        fontFamily: 'Bold',
+                                      ),
+                                      data.docs[index]['responder'] != ''
+                                          ? TextWidget(
+                                              text:
+                                                  'Responder: ${data12['name']}',
+                                              fontSize: 12,
+                                              fontFamily: 'Medium',
+                                            )
+                                          : const SizedBox(),
+                                      TextWidget(
+                                        text: DateFormat.yMMMd()
+                                            .add_jm()
+                                            .format(data.docs[index]['dateTime']
+                                                .toDate()),
+                                        fontSize: 12,
+                                        fontFamily: 'Bold',
+                                      ),
+                                    ],
+                                  );
+                                }),
                         trailing: IconButton(
                           onPressed: () {
                             showDialog(
