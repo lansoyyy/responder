@@ -43,29 +43,31 @@ class _MapTabState extends State<MapTab> {
   Set<Marker> markers = {};
   Set<Polyline> poly = {};
 
-  addMarker(userData) async {
-    markers.add(Marker(
-      markerId: MarkerId(userData.id),
-      icon: BitmapDescriptor.defaultMarker,
-      position: LatLng(userData['lat'], userData['long']),
-      infoWindow: InfoWindow(
-        title: 'Caption: ${userData['caption']}',
-        snippet: 'Reporter Name: ${userData['name']}',
-      ),
-    ));
+  // addMarker(userData) async {
+  //   markers.add(Marker(
+  //     markerId: MarkerId(userData.id),
+  //     icon: BitmapDescriptor.defaultMarker,
+  //     position: LatLng(userData['lat'], userData['long']),
+  //     infoWindow: InfoWindow(
+  //       title: 'Caption: ${userData['caption']}',
+  //       snippet: 'Reporter Name: ${userData['name']}',
+  //     ),
+  //   ));
 
-    poly.add(
-      Polyline(
-          color: Colors.red,
-          width: 2,
-          points: [
-            LatLng(lat, long),
-            LatLng(userData['lat'], userData['long']),
-          ],
-          polylineId: PolylineId(userData.id)),
-    );
-    setState(() {});
-  }
+  //   poly.add(
+  //     Polyline(
+  //         color: Colors.red,
+  //         width: 2,
+  //         points: [
+  //           LatLng(lat, long),
+  //           LatLng(userData['lat'], userData['long']),
+  //         ],
+  //         polylineId: PolylineId(userData.id)),
+  //   );
+  //   setState(() {});
+  // }
+
+  List ids = [];
 
   getMyReports() async {
     FirebaseFirestore.instance
@@ -75,11 +77,51 @@ class _MapTabState extends State<MapTab> {
         .get()
         .then((QuerySnapshot querySnapshot) async {
       for (var doc in querySnapshot.docs) {
-        addMarker(doc);
+        setState(() {
+          ids.add(doc['userId']);
+        });
       }
-    });
+    }).whenComplete(() => getReporterLocation());
+  }
 
-    setState(() {});
+  getReporterLocation() async {
+    for (int i = 0; i < ids.length; i++) {
+      Timer.periodic(const Duration(seconds: 5), (timer) {
+        FirebaseFirestore.instance
+            .collection('Users')
+            .where('userId', isEqualTo: ids[i])
+            .get()
+            .then((QuerySnapshot querySnapshot) async {
+          for (var doc in querySnapshot.docs) {
+            setState(() {
+              markers.clear();
+
+              poly.clear();
+              markers.add(Marker(
+                markerId: MarkerId(doc['userId']),
+                icon: BitmapDescriptor.defaultMarker,
+                position: LatLng(doc['lat'], doc['long']),
+                infoWindow: InfoWindow(
+                  title: 'Address: ${doc['address']}',
+                  snippet: 'Reporter Name: ${doc['name']}',
+                ),
+              ));
+
+              poly.add(
+                Polyline(
+                    color: Colors.red,
+                    width: 2,
+                    points: [
+                      LatLng(lat, long),
+                      LatLng(doc['lat'], doc['long']),
+                    ],
+                    polylineId: PolylineId(doc['userId'])),
+              );
+            });
+          }
+        });
+      });
+    }
   }
 
   @override
