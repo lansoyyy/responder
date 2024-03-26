@@ -15,6 +15,8 @@ Future addUser(name, contactnumber, address, email) async {
     'userId': FirebaseAuth.instance.currentUser!.uid,
     'type': 'Responder',
     'contactnumber': contactnumber,
+    'lat': 0,
+    'long': 0,
   };
 
   await docUser.set(json);
